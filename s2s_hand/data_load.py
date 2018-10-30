@@ -16,7 +16,7 @@ from torch.nn.parameter import Parameter
 
 warnings.simplefilter('ignore')
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-torch.cuda.set_device(1)
+torch.cuda.set_device(0)
 
 from utils import plot_stroke
 
@@ -25,6 +25,8 @@ stroke = strokes[0]
 
 with open('data/sentences.txt') as f:
     texts = f.readlines()
+    
+texts = [a.split('\n')[0] for a in texts]
 
 idx = 0
 stroke = strokes[idx]
@@ -55,72 +57,159 @@ def timeSince(since, percent):
     rs = es - s
     return '%s (- %s)' % (asMinutes(s), asMinutes(rs))
 
-def get_data(ind=0, batch_size=5):
+def get_data(ind=0, batch_size=1, max_seq=400):
   
   big_x,big_y = [],[]
+  #print ('here')
   
   for k in range(batch_size):
     X = strokes[ind+k]
+    if len(X)<max_seq:
+        continue
+    #print 'here'
+    halt = int(len(X)/max_seq) + 1
+    #print 'here',len(X),'halt',halt
+    count  = 0
+    for j in range(0,len(X),max_seq):
+        y = []
+        x = [[0,0,0]]
+        if count == halt-1:
+            for i in range(len(X)-max_seq, len(X)):
+              y.append(X[i])
+            y.append(X[i])
+            x.extend(X[len(X)-max_seq:])
+            big_x.append(x)
+            big_y.append(y)
+            continue
+        else:
+            for i in range(j,min(j+max_seq,len(X))):
+                y.append(X[i])
+            y.append(X[i])
+            x.extend(X[j:min(j+max_seq,len(X))])
+            y= np.array(y)
+            big_x.append(x)
+            big_y.append(y)
+        count+=1
+  X = np.array(big_x)
+  y = np.array(big_y)
+  return X,y
+
+def get_strokes_text(ind=0, batch_size=1, min_seq=400, max_seq=800, max_text_len = 40):
+  
+  big_x,big_y,big_text = [],[],[]
+  stroke_mask, text_mask, len_text = [],[],[]
+  
+  k = 0
+  count = 0
+  
+  #for k in range(batch_size):
+  while (count<batch_size):
+    #print (k)
+      
+    X = strokes[ind+k]
+    mask = np.ones(max_seq)
+
+    if len(X)<min_seq:
+        k+=1
+        #k = k-2
+        continue 
 
     x = []
-    for i in X:
+    for i in range(min(len(X),max_seq)):
+      #print ('here')
       #print i
-      x.append(i.tolist())
-    for i in range(max_seq-len(X)):
-      x.append([0,0,0])
+      x.append(X[i].tolist())
+    #print('here')
+    if len(X)<max_seq:
+        for i in range(max_seq-len(X)):
+          x.append([0,0,0])
+          
+        mask[len(X):] = 0
+    stroke_mask.append(mask)
     X = np.array(x)
 
     y = []
     for i in range(1,len(X)):
       y.append(X[i])
     y.append(X[len(X)-1])
-
     y= np.array(y)
-
-    #X = X.reshape((1, X.shape[0], X.shape[1]))
-    #y = y.reshape((1, y.shape[0], y.shape[1]))
+    
+    char_list = ' ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz,."\'?-!'
+    char_to_code = {}
+    code_to_char = {}
+    c = 0
+    for ch in char_list:
+        char_to_code[ch] = c
+        code_to_char[c] = ch
+        c += 1
+    text = texts[ind+k]
+    text = text[0:min(max_text_len,len(text))]
+    #print (text)
+    #bre
+    vectors = np.zeros((max_text_len, len(char_to_code)+1))
+    #print (vectors.shape)
+    #bre
+    mask = np.ones(max_text_len)
+    for p,q in enumerate(text):
+        try:
+            vectors[p][char_to_code[q]] = 1
+        except:
+            #print (q)
+            vectors[p][-1] = 1
+            continue
+        
+    if len(text) < max_text_len:
+        mask[len(text):] = 0
+    #big_y.append(vectors)
+    text_mask.append(mask)
+    len_text.append(len(text))
 
     big_x.append(X)
     big_y.append(y)
+    big_text.append(vectors)
+    
+    k+=1
+    count+=1
+  #print('here')
   X = np.array(big_x)
   y = np.array(big_y)
+  text = np.array(big_text)
+  return [X, y, text], [stroke_mask,text_mask], len_text, char_to_code, code_to_char
   #print X.shape
-  #print y.shape
+
+def get_data_seq(ind=0, batch_size=1, max_seq=400):
   
-  #X = X.reshape((batch_size, X.shape[0], X.shape[1]))
-  #y = y.reshape((batch_size, y.shape[0], y.shape[1]))
+  big_x,big_y = [],[]
   
+  for k in range(batch_size):
+    X = strokes[ind+k]
+    for j in range(0,len(X),max_seq):
+        y = []
+        for i in range(j+1,min(j+max_seq,len(X))):
+          y.append(X[i])
+        y.append(X[i])
+
+        y= np.array(y)
+        big_x.append(X[j:min(j+max_seq,len(X))])
+        big_y.append(y)
+  X = np.array(big_x)
+  y = np.array(big_y) 
   return X,y
 
-def get_data_window(ind=0, steps=20):
-  
-  X = strokes[ind].tolist()
-  X.append([-2,-1,-1])
-  next_chars_f = []
-  sentences_f = []
-  
-  if True:
-      temp = [[0.0,0.0,0.0] for i in range(steps)]
-      flag = False
-      for word in X:
-          temp.remove(temp[0])
-          temp.append(word)
-          if flag == True:
-              next_chars_f.append(word)
-          if word!=[-2,-1,-1]:
-              temp1 = []
-              for i in temp:
-                  temp1.append(i)
-              sentences_f.append(temp1)
-          flag = True
-  next_chars_f[-1] = [0.0,0.0,0.0]
-  return np.array(sentences_f), np.array(next_chars_f)
-          
-steps = max_seq
-n_features = 3
-n_timesteps_in = steps
-n_timesteps_out = max_seq
-batch_size = 10
+import os
+
+def save_checkpoint(epoch, model, optimizer, directory, \
+                    filename='best.pt'):
+    checkpoint=({'epoch': epoch+1,
+    'model': model.state_dict(),
+    'optimizer' : optimizer.state_dict()
+    })
+    try:
+        torch.save(checkpoint, os.path.join(directory, filename))
+        
+    except:
+        os.mkdir(directory)
+        torch.save(checkpoint, os.path.join(directory, filename))
 
 
 #enc = LSTM(150, input_shape=(n_timesteps_in, n_features), return_sequences=False)(inpx)
