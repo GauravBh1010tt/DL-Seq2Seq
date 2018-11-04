@@ -24,6 +24,8 @@ English o/p  - "you re taller than me . <EOS>"
 <img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/nmt.JPG" width="850">
 
 ## Handwriting Synthesis
+The handwriting genration problem comes under the category of inverse problems, where we have multiple outputs at a given time-step. The idea, as given in [Alex grave's paper](https://arxiv.org/pdf/1308.0850.pdf), is to use [Mixture Density Network](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.120.5685&rep=rep1&type=pdf) (a gaussian distribution model) over the top of recurrent models. The handwriting generation problem is divided into two categories - unconditional and conditional generation. In case of unconditional generation the recurrent model is used to draw samples while in case of conditional generation handwriting is synthesied given some text. 
+
 ### Unconditional Generation
 
 <img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/uncon.JPG" width="850">
@@ -43,6 +45,7 @@ English o/p  - "you re taller than me . <EOS>"
 <img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/unc2.JPG" width="850">
 
 ### Conditional Generation
+In case of handwriting synthesis, a location based attention mechanism is used where a attention window (w<sub>t</sub>) is convolved with the character encodings. The attention parameters k<sub>t</sub> control the location of the window, the β<sub>t</sub> parameters control the width of the window and the α<sub>t</sub> parameters control the importance of the window within the mixture.
 
 <img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/cond.JPG" width="850">
 
