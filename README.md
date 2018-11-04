@@ -23,6 +23,24 @@ English o/p  - "you re taller than me . <EOS>"
 ## Handwriting Synthesis
 ### Unconditional Generation
 ```python
->>> text = 'hello how are you'
->>> evaluate(text)
+>>> strokes, mix_params = sample(lr_model, time_steps=800, random_state = 1283)
+>>> plot_stroke(strokes)
+>>> gauss_params_plot(mix_params)
 ```
+<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/unc1.JPG" width="850">
+
+```python
+>>> strokes, mix_params = sample(lr_model, time_steps=800, random_state = 35442)
+>>> plot_stroke(strokes)
+>>> gauss_params_plot(mix_params)
+```
+<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/unc2.JPG" width="850">
+
+### Conditional Generation
+```python
+>>> strokes, mix_params, phi, win = sample(lr_model, 'kiki do you love me ?', char_to_vec)
+>>> phi_window_plots(phi, win) 
+>>> plot_stroke(strokes)
+>>> gauss_params_plot(mix_params)
+```
+<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/kiki.JPG" width="850">
