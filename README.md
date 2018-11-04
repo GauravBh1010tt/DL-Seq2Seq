@@ -25,7 +25,9 @@ English o/p  - "you re taller than me . <EOS>"
 
 ## Handwriting Synthesis
 ### Unconditional Generation
-<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/uncond.JPG" width="850">
+
+<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/uncon.JPG" width="850">
+
 ```python
 >>> strokes, mix_params = sample(lr_model, time_steps=800, random_state = 1283)
 >>> plot_stroke(strokes)
