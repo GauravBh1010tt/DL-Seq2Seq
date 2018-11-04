@@ -24,9 +24,8 @@ English o/p  - "you re taller than me . <EOS>"
 <img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/nmt.JPG" width="850">
 
 ## Handwriting Synthesis
-<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/hand.JPG" width="850">
-
 ### Unconditional Generation
+<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/uncond.JPG" width="850">
 ```python
 >>> strokes, mix_params = sample(lr_model, time_steps=800, random_state = 1283)
 >>> plot_stroke(strokes)
@@ -42,6 +41,7 @@ English o/p  - "you re taller than me . <EOS>"
 <img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/unc2.JPG" width="850">
 
 ### Conditional Generation
+<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/cond.JPG" width="850">
 ```python
 >>> strokes, mix_params, phi, win = sample(lr_model, 'kiki do you love me ?', char_to_vec)
 >>> phi_window_plots(phi, win) 
