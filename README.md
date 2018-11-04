@@ -41,7 +41,9 @@ English o/p  - "you re taller than me . <EOS>"
 <img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/unc2.JPG" width="850">
 
 ### Conditional Generation
+
 <img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/cond.JPG" width="850">
+
 ```python
 >>> strokes, mix_params, phi, win = sample(lr_model, 'kiki do you love me ?', char_to_vec)
 >>> phi_window_plots(phi, win) 
