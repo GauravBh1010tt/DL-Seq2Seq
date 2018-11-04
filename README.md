@@ -3,7 +3,11 @@ This repository contains implementation of research papers on sequence-to-sequen
 - Machine translation (following [Effective Approaches to Attention-based Neural Machine Translation](https://arxiv.org/pdf/1508.04025.pdf) paper)
 - Handwriting synthesis (following [Generating Sequences With Recurrent Neural Networks](https://arxiv.org/pdf/1308.0850.pdf) paper)
 - Scheduled Sampling (following [Scheduled Sampling for Sequence Prediction with Recurrent Neural Networks](https://arxiv.org/pdf/1506.03099.pdf) paper)
+#### I will use pre-trained models (provided in the saved_models folder) for the following demonstrations. I have also included main.py script for training the models from scratch.
+
 ## Neural Machine Translation
+For this task, I have followed attentional encoder-decoder model as described in [Luong's paper](https://arxiv.org/pdf/1508.04025.pdf). I have specifically focused on **content-based attention** strategy.
+### Train the models
 <img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/nmt_attn.JPG" width="750">
 
 ```python
