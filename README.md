@@ -44,3 +44,11 @@ English o/p  - "you re taller than me . <EOS>"
 >>> gauss_params_plot(mix_params)
 ```
 <img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/kiki.JPG" width="850">
+
+```python
+>>> strokes, mix_params, phi, win = sample(lr_model, 'kiki do you love me ?', char_to_vec)
+>>> phi_window_plots(phi, win) 
+>>> plot_stroke(strokes)
+>>> gauss_params_plot(mix_params)
+```
+<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/beauty.JPG" width="850">
