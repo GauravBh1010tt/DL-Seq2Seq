@@ -16,7 +16,7 @@ $ python main.py
 ```
 
 ### Let's make some inference
-For inference I have provided trained models in the **saved_model** folder. For handwriting synthesis, the pretrained models are included in the github repository, but for machine translation please download the files from here [download pre-trained models for machine tranlation](https://drive.google.com/open?id=1gCqYu4UisEKgIF7R4hb9vqJXdmhA4Va2). Keep the downloaded **saved_model** folder inside the **neural machine translation** folder. You can also train your own model and parameters will be saved.
+For inference I have provided trained models in the **saved_model** folder. For handwriting synthesis, the pretrained models are included in the github repository, but for machine translation please download the files from [download pre-trained models for machine tranlation](https://drive.google.com/open?id=1gCqYu4UisEKgIF7R4hb9vqJXdmhA4Va2). Keep the downloaded **saved_model** folder inside the **neural machine translation** folder. You can also train your own model and parameters will be saved.
 
 ```python
 >>> from eval import *
