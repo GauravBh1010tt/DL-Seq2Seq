@@ -16,22 +16,27 @@ $ python main.py
 ```
 
 ### Let's make some inference
-For inference I have provided trained models in the **saved_model** folder. You can also train your own model and parameters will be saved there.
+For inference I have provided trained models in the **saved_model** folder. For handwriting synthesis, the pretrained models are included in the github repository, but for machine translation please download the files from here [download pre-trained models for machine tranlation](https://drive.google.com/open?id=1gCqYu4UisEKgIF7R4hb9vqJXdmhA4Va2). Keep the downloaded **saved_model** folder inside the **neural machine translation** folder. You can also train your own model and parameters will be saved.
 
 ```python
+>>> from eval import *
+
+>>> encoder_e2f, decoder_e2f = load_pre_trained('eng-fra') # 'eng-fra' or 'fra-eng'
+>>> encoder_f2e, encoder_f2e = load_pre_trained('fra-eng') # 'eng-fra' or 'fra-eng'
+
 >>> eng_text = "i m not giving you any money ."
 >>> fra_text = " tu es plus grande que moi ."
 
->>> inp1, out1, attn1 = evalText(eng_text)
+>>> inp1, out1, attn1 = evalText(eng_text, encoder_e2f, decoder_e2f)
 English Text - "i m not giving you any money ."
 French o/p   - "je ne te donnerai pas argent . <EOS>"
 
->>> inp2, out2, attn2 = evalText(fra_text, inp_lang='French', out_lang='English')
+>>> inp2, out2, attn2 = evalText(fra_text, encoder_f2e, encoder_f2e, inp_lang='French', out_lang='English')
 French Text  - "je crains de vous avoir offense ."
 English o/p  - "i m afraid i ve offended you . <EOS>"
 
->>> vis_attn(inp1 ,out1 ,attn1)
->>> vis_attn(inp2 ,out2 ,attn2)
+>>> viz_attn(inp1 ,out1 ,attn1)
+>>> viz_attn(inp2 ,out2 ,attn2)
 ``` 
 <img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/nmt.JPG" width="850">
 
