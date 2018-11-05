@@ -10,7 +10,7 @@ For this task, I have followed attentional encoder-decoder model as described in
 <img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/nmt_attn.JPG" width="750">
 
 ### Train the models
-If you want to train the model from scratch, then use the following command. The hyperparamters can be changed in the main.py script. The trained model would be saved in **saved_model** folder.
+If you want to train the model from scratch, then use the following command. You can set the hyperparamters in the main.py script. The trained model would be saved in **saved_model** folder.
 ```python
 $ python main.py
 ```
@@ -19,16 +19,16 @@ $ python main.py
 For inference I have provided trained models in the **saved_model** folder. You can also train your own model and parameters will be saved there.
 
 ```python
->>> text1 = "je crains de vous avoir offense ."
->>> text2 = " tu es plus grande que moi ."
+>>> eng_text = "i m not giving you any money ."
+>>> fra_text = " tu es plus grande que moi ."
 
->>> inp1, out1, attn1 = evalText(text1)
+>>> inp1, out1, attn1 = evalText(eng_text)
+English Text - "i m not giving you any money ."
+French o/p   - "je ne te donnerai pas argent . <EOS>"
+
+>>> inp2, out2, attn2 = evalText(fra_text, inp_lang='French', out_lang='English')
 French Text  - "je crains de vous avoir offense ."
 English o/p  - "i m afraid i ve offended you . <EOS>"
-
->>> inp2, out2, attn2 = evalText(text2)
-French Text  - "tu es plus grande que moi ."
-English o/p  - "you re taller than me . <EOS>"
 
 >>> vis_attn(inp1 ,out1 ,attn1)
 >>> vis_attn(inp2 ,out2 ,attn2)
