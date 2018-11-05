@@ -7,8 +7,16 @@ This repository contains implementation of research papers on sequence-to-sequen
 
 ## Neural Machine Translation
 For this task, I have followed attentional encoder-decoder model as described in [Luong's paper](https://arxiv.org/pdf/1508.04025.pdf). I have specifically focused on **content-based attention** strategy.
-### Train the models
 <img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/nmt_attn.JPG" width="750">
+
+### Train the models
+If you want to train the model from scratch, then use the following command. The hyperparamters can be changed in the main.py script. The trained model would be saved in **saved_model** folder.
+```python
+$ python main.py
+```
+
+### Let's make some inference
+For inference I have provided trained models in the **saved_model** folder. You can also train your own model and parameters will be saved there.
 
 ```python
 >>> text1 = "je crains de vous avoir offense ."
