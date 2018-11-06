@@ -11,6 +11,7 @@ import matplotlib.cm as cm
 import numpy as np
 import torch
 from model import model_uncond, mdn_loss, sample_uncond, scheduled_sample, model_congen, sample_congen
+from data_load import *  
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -43,7 +44,7 @@ def load_pretrained_uncond():
                         rnn_type = rnn_type).to(device)
     
     lr_model.load_state_dict(torch.load('saved_model/model_uncond.pt')['model'])
-    return lr_model
+    return lr_model, hidden_size
 
 def load_pretrained_congen():
     ####################################################
@@ -72,13 +73,14 @@ def load_pretrained_congen():
     rnn_type = 2 # 1 for gru, 2 for lstm
 
     ####################################################
-    
+    data, mask, text_len, char_to_vec, vec_to_char = get_strokes_text(0, batch_size, min_seq, max_seq, max_text_seq)
+   
     lr_model = model_congen(input_size = 3, hidden_size=hidden_size, num_gaussian=num_gaussian,\
                      dropout_p = dropout_p, n_layers= n_layers, batch_size=batch_size,\
                      num_attn_gaussian = num_attn_gaussian, rnn_type = rnn_type).to(device)
     
     lr_model.load_state_dict(torch.load('saved_model/model_congen.pt')['model'])
-    return lr_model
+    return lr_model, char_to_vec, hidden_size
 
 def phi_window_plots(phis, windows):
     #print (phis.shape)
@@ -114,7 +116,7 @@ def gauss_params_plot(strokes, title ='Distribution of Gaussian Mixture paramete
         Z += gauss * np.power(strokes[i,3] + strokes[i,2], .4) / (np.max(gauss) + epsilon)
     
     plt.title(title, fontsize=20)
-    plt.imshow(np.flipud(Z), cmap=cm.gist_stern)
+    plt.imshow(np.flipud(Z), cmap=cm.gnuplot)
     
 def plot_stroke(stroke, save_name=None):
     # Plot a single example.

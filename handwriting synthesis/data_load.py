@@ -24,7 +24,7 @@ warnings.simplefilter('ignore')
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 torch.cuda.set_device(1)
 
-from eval_hand import plot_stroke
+from eval_hand import *
 
 strokes = np.load('data/strokes.npy', encoding='latin1')
 stroke = strokes[0]
@@ -37,8 +37,8 @@ texts = [a.split('\n')[0] for a in texts]
 idx = 0
 stroke = strokes[idx]
 text = texts[idx]
-plot_stroke(stroke)
-print ('TEXT:', text)
+#plot_stroke(stroke)
+#print ('TEXT:', text)
 
 
 l=[]

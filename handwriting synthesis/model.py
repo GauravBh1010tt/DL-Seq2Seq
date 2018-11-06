@@ -285,12 +285,29 @@ def sample_congen(lr_model, text, char_to_vec, hidden_size, start=[0,0,0], time_
     #phi_window_plots(phis,win.squeeze(1))
     #gauss_params_plot()
     strokes[:, 1:3] *= scale  # scaling the output strokes
+    #print ('sacle')
     return strokes[:count+scale,:], mix_params[:count+scale,:],\
              phis[:,:count+scale], win.squeeze(1)[:,:count+scale]
 
 def sample_uncond(lr_model, hidden_size, start=[0,0,0], rnn_type =2, \
-                  time_step=1000, scale = 20, bi_dir =True, random_state= np.random.randint(0,10000)):
+                  time_step=600, scale = 20, bi_dir =True, random_state= 98):
     np.random.seed(random_state)
+    
+    def get_pi_id(x, dist):    
+        # implementing the cumulative index retrieval
+        N = dist.shape[0]
+        accumulate = 0
+        for i in range(0, N):
+            accumulate += dist[i]
+            if (accumulate >= x):
+                return i
+        return -1
+    
+    def sample_gaussian_2d(mu1, mu2, s1, s2, rho):
+        mean = [mu1, mu2]
+        cov = [[s1 * s1, rho * s1 * s2], [rho * s1 * s2, s2 * s2]]
+        x = np.random.multivariate_normal(mean, cov, 1)
+        return x[0][0], x[0][1]
         
     if bi_dir == True:
         bi = 2
