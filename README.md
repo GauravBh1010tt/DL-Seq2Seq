@@ -47,27 +47,27 @@ The handwriting genration problem comes under the category of inverse problems, 
 The unconditional model uses skip-connection as shown by arrows from input to outer recurrent model. The MDN parameters are computed by passing the output of recurrent model to MDN layer.
 <img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/uncon.JPG" width="850">
 
-### Train the models
+#### Train the models
 If you want to train the model from scratch, then use the following command. You can set the hyperparamters in the **main_uncond.py** script. The trained model would be saved in **saved_model** folder.
 ```python
 $ python main_uncond.py
 ```
 
-### Let's make some inference
+#### Let's make some inference
 For inference I have provided trained models in the **saved_model** folder. If you have trained your own model, then it would overwrite the pre-trained model and can be found inside **saved_model** folder.
 
 ```python
 >>> from eval_hand import load_pretrained_uncond, gauss_params_plot, plot_stroke
 >>> from model import model_uncond, mdn_loss, sample_uncond, scheduled_sample
 
->>> strokes, mix_params = sample(lr_model, time_steps=800, random_state = 1283)
+>>> strokes, mix_params = sample_uncond(lr_model, time_steps=800, random_state = 1283)
 >>> plot_stroke(strokes)
 >>> gauss_params_plot(mix_params)
 ```
 <img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/unc1.JPG" width="850">
 
 ```python
->>> strokes, mix_params = sample(lr_model, time_steps=800, random_state = 35442)
+>>> strokes, mix_params = sample_uncond(lr_model, time_steps=800, random_state = 35442)
 >>> plot_stroke(strokes)
 >>> gauss_params_plot(mix_params)
 ```
@@ -78,18 +78,31 @@ In case of handwriting synthesis, a location based attention mechanism is used w
 
 <img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/cond.JPG" width="850">
 
+#### Train the models
+If you want to train the model from scratch, then use the following command. You can set the hyperparamters in the **main_congen.py** script. The trained model would be saved in **saved_model** folder.
 ```python
->>> strokes, mix_params, phi, win = sample(lr_model, 'kiki do you love me ?', char_to_vec)
->>> phi_window_plots(phi, win) 
+$ python main_congen.py
+```
+
+#### Let's make some inference
+For inference I have provided trained models in the **saved_model** folder. If you have trained your own model, then it would overwrite the pre-trained model and can be found inside **saved_model** folder.
+
+```python
+>>> from eval_hand import load_pretrained_congen, gauss_params_plot, plot_stroke
+>>> from model import model_congen, mdn_loss, sample_congen
+
+>>> lr_model, char_to_vec, h_size = load_pretrained_congen()
+>>> strokes, mix_params, phi, win = sample_congen(lr_model, 'kiki do you love me ?', char_to_vec, h_size)
 >>> plot_stroke(strokes)
 >>> gauss_params_plot(mix_params)
+>>> phi_window_plots(phi, win) 
 ```
 <img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/kiki.JPG" width="850">
 
 ```python
->>> strokes, mix_params, phi, win = sample(lr_model, 'a thing of beauty is joy forever', char_to_vec)
->>> phi_window_plots(phi, win) 
+>>> strokes, mix_params, phi, win = sample_congen(lr_model, 'a thing of beauty is joy forever', char_to_vec, h_size)
 >>> plot_stroke(strokes)
 >>> gauss_params_plot(mix_params)
+>>> phi_window_plots(phi, win) 
 ```
 <img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/beauty.JPG" width="850">
