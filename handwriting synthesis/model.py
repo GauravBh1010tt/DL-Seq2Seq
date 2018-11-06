@@ -203,7 +203,7 @@ def sample_gaussian_2d(mu1, mu2, s1, s2, rho):
     return x[0][0], x[0][1]
 
 def sample_congen(lr_model, text, char_to_vec, hidden_size, start=[0,0,0], time_step=1000, scale = 50,\
-                rnn_type = 2, bias1 = 1, bias2 = 1, num_attn_gaussian = 10, bi_dir=True, random_state= 98):
+                rnn_type = 2, bias1 = 1, bias2 = 1, num_attn_gaussian = 10, bi_dir=True, random_state= 56):
     np.random.seed(random_state)
     
     if bi_dir == True:
