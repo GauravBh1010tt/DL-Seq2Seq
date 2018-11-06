@@ -1,4 +1,8 @@
-# -*- coding: utf-8 -*-
+"""
+** deeplean-ai.com **
+created by :: GauravBh1010tt
+contact :: gauravbhatt.deeplearn@gmail.com
+"""
 
 import numpy
 from matplotlib import pyplot
