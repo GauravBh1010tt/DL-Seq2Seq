@@ -1,4 +1,8 @@
-# -*- coding: utf-8 -*-
+"""
+** deeplean-ai.com **
+created by :: GauravBh1010tt
+contact :: gauravbhatt.deeplearn@gmail.com
+"""
 
 from data_load import *  
 from model import model_congen, mdn_loss, sample_congen
