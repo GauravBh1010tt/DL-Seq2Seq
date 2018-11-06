@@ -1,4 +1,9 @@
-# -*- coding: utf-8 -*-
+"""
+** deeplean-ai.com **
+created by :: GauravBh1010tt
+contact :: gauravbhatt.deeplearn@gmail.com
+"""
+
 from __future__ import unicode_literals, print_function, division
 
 import math
