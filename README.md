@@ -11,7 +11,7 @@ For this task, I have followed attentional encoder-decoder model as described in
 
 ### Train the models
 If you want to train the model from scratch, then use the following command. You can set the hyperparamters in the main.py script. The trained model would be saved in **saved_model** folder.
-```python
+```python    
 $ python main.py
 ```
 
@@ -60,7 +60,8 @@ For inference I have provided trained models in the **saved_model** folder. If y
 >>> from eval_hand import load_pretrained_uncond, gauss_params_plot, plot_stroke
 >>> from model import model_uncond, mdn_loss, sample_uncond, scheduled_sample
 
->>> strokes, mix_params = sample_uncond(lr_model, time_steps=800, random_state = 1283)
+>>> lr_model, h_size = load_pretrained_uncond()
+>>> strokes, mix_params = sample_uncond(lr_model, h_size, time_steps=800, random_state = 1283)
 >>> plot_stroke(strokes)
 >>> gauss_params_plot(mix_params)
 ```
