@@ -19,7 +19,7 @@ $ python main.py
 For inference I have provided trained models in the **saved_model** folder. For handwriting synthesis, the pretrained models are included in the github repository, but for machine translation please download the files from [download pre-trained models for machine tranlation](https://drive.google.com/open?id=1gCqYu4UisEKgIF7R4hb9vqJXdmhA4Va2). Keep the downloaded **saved_model** folder inside the **neural machine translation** folder. You can also train your own model and parameters will be saved.
 
 ```python
->>> from eval_nmt import *
+>>> from eval_nmt import load_pre_trained, evalText, viz_attn
 
 >>> encoder_e2f, decoder_e2f = load_pre_trained('eng-fra') # 'eng-fra' or 'fra-eng'
 >>> encoder_f2e, encoder_f2e = load_pre_trained('fra-eng') # 'eng-fra' or 'fra-eng'
