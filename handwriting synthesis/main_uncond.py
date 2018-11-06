@@ -51,20 +51,21 @@ for big_epoch in range(epochs):
       model_optimizer.zero_grad()
     
       loss = 0
-      for word in range(0,input_tensor.size()[1]):
-        mdn_params, hidden1, hidden2 = lr_model( input_tensor[:,word,:], hidden1, hidden2)
+      for stroke in range(0,input_tensor.size()[1]):
+        mdn_params, hidden1, hidden2 = lr_model( input_tensor[:,stroke,:], hidden1, hidden2)
         
         if np.random.random() > teacher_forcing_ratio:
-            out_sample = scheduled_sample(lr_model, hidden, input_tensor[:,word,:])
+            out_sample = scheduled_sample(lr_model, hidden_size, input_tensor[:,stroke,:], batch_size)
         else:
-            out_sample = target_tensor[:,word,:]
+            out_sample = target_tensor[:,stroke,:]
         
         loss += mdn_loss(mdn_params, out_sample)
       loss = loss/input_tensor.size()[1]
+      
       loss.backward()         
-      torch.nn.utils.clip_grad_norm(lr_model.parameters(), clip)
-    
+      torch.nn.utils.clip_grad_norm(lr_model.parameters(), clip)    
       model_optimizer.step()
+      
       print_loss_total += loss.item()/target_tensor.size()[1]
       
       if i % print_every == 0 and i>0:

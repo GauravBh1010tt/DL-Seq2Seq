@@ -8,8 +8,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 hidden_size = 400
 n_layers = 1
-num_gaussian = 20
-num_attn_gaussian = 10
+num_gaussian = 20   # number of gaussian for Mixture Density Network
+num_attn_gaussian = 10  # number of gaussians for attention window
 dropout_p = 0.2
 batch_size = 100
 max_seq = 700
@@ -58,9 +58,7 @@ for big_epoch in range(epochs):
       old_k = torch.zeros((batch_size,num_attn_gaussian), dtype=torch.float, device=device)
       old_w = text_tensor.narrow(1,0,1)
       
-      #bre
-      model_optimizer.zero_grad()
-    
+      model_optimizer.zero_grad()    
       loss = 0
       for stroke in range(0,max_seq):
           mdn_params, hidden1, hidden2 = lr_model( stroke_tensor[:,stroke,:], text_tensor,
@@ -69,18 +67,18 @@ for big_epoch in range(epochs):
           old_w = mdn_params[-2].unsqueeze(1)
           loss += mdn_loss(mdn_params, target_tensor[:,stroke,:], stroke_mask[:,stroke])
       loss = loss/max_seq
+      
       loss.backward()      
       torch.nn.utils.clip_grad_norm(lr_model.parameters(), clip)    
       model_optimizer.step()
-      print_loss_total += loss.item()/max_seq
       
+      print_loss_total += loss.item()/max_seq     
       if i % print_every == 0 and i>0:
         print_loss_avg = print_loss_total / print_every
         print_loss_total = 0
         #print(print_loss_avg)
         print('%d  %s (%d %d%%) %.4f' % (big_epoch,timeSince(start, i / num_mini_batch),
-                                             i, i / num_mini_batch * 100, print_loss_avg))
-  
+                                             i, i / num_mini_batch * 100, print_loss_avg))  
       print_loss+=1
       
     if big_epoch % plot_every == 0 and big_epoch>0:
