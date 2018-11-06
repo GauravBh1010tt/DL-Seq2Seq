@@ -61,14 +61,14 @@ For inference I have provided trained models in the **saved_model** folder. If y
 >>> from model import model_uncond, mdn_loss, sample_uncond, scheduled_sample
 
 >>> lr_model, h_size = load_pretrained_uncond()
->>> strokes, mix_params = sample_uncond(lr_model, h_size, time_steps=800, random_state = 1283)
+>>> strokes, mix_params = sample_uncond(lr_model, h_size)
 >>> plot_stroke(strokes)
 >>> gauss_params_plot(mix_params)
 ```
 <img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/unc1.JPG" width="850">
 
 ```python
->>> strokes, mix_params = sample_uncond(lr_model, time_steps=800, random_state = 35442)
+>>> strokes, mix_params = sample_uncond(lr_model, h_size)
 >>> plot_stroke(strokes)
 >>> gauss_params_plot(mix_params)
 ```
