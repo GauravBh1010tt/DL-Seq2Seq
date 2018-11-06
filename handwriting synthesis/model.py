@@ -160,6 +160,7 @@ class model_congen(nn.Module):
 def mdn_loss(mdn_params, data, mask=[]):
 
     def get_2d_normal(x1,x2,mu1,mu2,s1,s2,rho):
+        
       ##### implementing Eqn. 24 and 25 of the paper ###########
       norm1 = torch.sub(x1.view(-1,1),mu1)
       norm2 = torch.sub(x2.view(-1,1),mu2)
