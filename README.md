@@ -44,10 +44,22 @@ English o/p  - "i m afraid i ve offended you . <EOS>"
 The handwriting genration problem comes under the category of inverse problems, where we have multiple outputs at a given time-step. The idea, as given in [Alex grave's paper](https://arxiv.org/pdf/1308.0850.pdf), is to use [Mixture Density Network](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.120.5685&rep=rep1&type=pdf) (a gaussian distribution model) over the top of recurrent models. The handwriting generation problem is divided into two categories - unconditional and conditional generation. In case of unconditional generation the recurrent model is used to draw samples while in case of conditional generation handwriting is synthesied given some text. 
 
 ### Unconditional Generation
-
+The unconditional model uses skip-connection as shown by arrows from input to outer recurrent model. The MDN parameters are computed by passing the output of recurrent model to MDN layer.
 <img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/uncon.JPG" width="850">
 
+### Train the models
+If you want to train the model from scratch, then use the following command. You can set the hyperparamters in the **main_uncond.py** script. The trained model would be saved in **saved_model** folder.
 ```python
+$ python main_uncond.py
+```
+
+### Let's make some inference
+For inference I have provided trained models in the **saved_model** folder. If you have trained your own model, then it would overwrite the pre-trained model and can be found inside **saved_model** folder.
+
+```python
+>>> from eval_hand import load_pretrained_uncond, gauss_params_plot, plot_stroke
+>>> from model import model_uncond, mdn_loss, sample_uncond, scheduled_sample
+
 >>> strokes, mix_params = sample(lr_model, time_steps=800, random_state = 1283)
 >>> plot_stroke(strokes)
 >>> gauss_params_plot(mix_params)
