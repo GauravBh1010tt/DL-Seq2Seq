@@ -26,7 +26,7 @@ learning_rate = 0.0005
 print_loss = 0
 total_loss = torch.Tensor([0]).cuda()
 print_loss_total = 0
-teacher_forcing_ratio = 1      # do not chnage this right now
+teacher_forcing_ratio = 1      # do not change this right now
 clip = 10.0
 np.random.seed(9987)
 epochs = 60
