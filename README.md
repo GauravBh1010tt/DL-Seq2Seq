@@ -1,10 +1,12 @@
 # DL-Seq2Seq
 This repository contains implementation of research papers on sequence-to-sequence learning. Currently the following implementations are supported:
-- Sketch Generation (following [A Neural Representation of Sketch Drawings](https://openreview.net/pdf?id=Hy6GHpkCW) paper)
-- Machine translation (following [Effective Approaches to Attention-based Neural Machine Translation](https://arxiv.org/pdf/1508.04025.pdf) paper)
-- Handwriting synthesis (following [Generating Sequences With Recurrent Neural Networks](https://arxiv.org/pdf/1308.0850.pdf) paper)
-- Scheduled Sampling (following [Scheduled Sampling for Sequence Prediction with Recurrent Neural Networks](https://arxiv.org/pdf/1506.03099.pdf) paper)
-- Mixture Density Networks (following [Mixture Density Networks](https://publications.aston.ac.uk/373/1/NCRG_94_004.pdf) paper)
+- Sketch Generation - [A Neural Representation of Sketch Drawings](https://openreview.net/pdf?id=Hy6GHpkCW)
+- Machine translation - [Effective Approaches to Attention-based Neural Machine Translation](https://arxiv.org/pdf/1508.04025.pdf)
+- Handwriting synthesis - [Generating Sequences With Recurrent Neural Networks](https://arxiv.org/pdf/1308.0850.pdf)
+- Variational Autoencoders (VAE) - [Auto-Encoding Variational Bayes](https://arxiv.org/pdf/1312.6114.pdf)
+- Scheduled Sampling - [Scheduled Sampling for Sequence Prediction with Recurrent Neural Networks](https://arxiv.org/pdf/1506.03099.pdf)
+- Conditional VAE - [Learning Structured Output Representation using Deep Conditional Generative Models](https://papers.nips.cc/paper/5775-learning-structured-output-representation-using-deep-conditional-generative-models.pdf)
+- Mixture Density Networks - [Mixture Density Networks](https://publications.aston.ac.uk/373/1/NCRG_94_004.pdf)
 #### I will use pre-trained models (provided in the saved_models folder) for the following demonstrations. I have also included main.py script for training the models from scratch.
 
 
