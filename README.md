@@ -13,7 +13,7 @@ This repository contains implementation of research papers on sequence-to-sequen
 ## Sketch Generation
 Sketch-RNN model is desbribed in the apper [A Neural Representation of Sketch Drawings](https://openreview.net/pdf?id=Hy6GHpkCW). It is a variational autoencoder which generates pen-strokes of various shapes. The idea is to use a **Sequence-to-Sequence Variational Autoencoder (VAE)** which can learn the latent distribution of the drawings.
 
-<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/sk-rnn.JPG" width="850">
+<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/zzfigs/sk-rnn.JPG" width="850">
 
 The output of encoder is used to compute the latent parameters (**mu**, **sigma** and **z**) which is fed to the decoder. The output of the decoder is passed to a [mixture density network (MDN)](https://publications.aston.ac.uk/373/1/NCRG_94_004.pdf) which fits k-gaussians to learn the distribution of pen strokes.
 
@@ -40,7 +40,7 @@ For inference I have provided trained models in the **saved_model** folder. If y
                                                cond_gen=cond_gen, device=device, bi_mode= mode)
 >>> draw_image(strokes)
 ```
-<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/unc_skrnn.JPG" width="900">
+<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/zzfigs/unc_skrnn.JPG" width="900">
 
 ### Conditional Generation
 Here, any sketch that is to be generated is conditioned on some input strokes. The given input is passed through the encoder whose output (hidden state) is used to compute the values of latent parameters (**mu**, **sigma** and **z**). The input of the decoder is the given input and the latent (*z*) vector concatenated together. Finally, the output of the decoder is fed to the MDN. Once trained the sketch-rnn model can be used to sample new data points.
@@ -70,11 +70,11 @@ For inference I have provided trained models in the **saved_model** folder. If y
                                                cond_gen=cond_gen, device=device, bi_mode=mode)
 >>> draw_image(strokes)
 ```
-<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/cnd_skrnn.JPG" width="900">
+<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/zzfigs/cnd_skrnn.JPG" width="900">
 
 ## Neural Machine Translation
 For this task, I have followed attentional encoder-decoder model as described in [Luong's paper](https://arxiv.org/pdf/1508.04025.pdf). I have specifically focused on **content-based attention** strategy.
-<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/nmt_attn.JPG" width="750">
+<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/zzfigs/nmt_attn.JPG" width="750">
 
 ### Train the models
 If you want to train the model from scratch, then use the following command. You can set the hyperparamters in the main.py script. The trained model would be saved in **saved_model** folder.
@@ -105,14 +105,14 @@ English o/p  - "i m afraid i ve offended you . <EOS>"
 >>> viz_attn(inp1 ,out1 ,attn1)
 >>> viz_attn(inp2 ,out2 ,attn2)
 ``` 
-<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/nmt.JPG" width="850">
+<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/zzfigs/nmt.JPG" width="850">
 
 ## Handwriting Synthesis
 The handwriting genration problem comes under the category of inverse problems, where we have multiple outputs at a given time-step. The idea, as given in [Alex grave's paper](https://arxiv.org/pdf/1308.0850.pdf), is to use [Mixture Density Network](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.120.5685&rep=rep1&type=pdf) (a gaussian distribution model) over the top of recurrent models. The handwriting generation problem is divided into two categories - unconditional and conditional generation. In case of unconditional generation the recurrent model is used to draw samples while in case of conditional generation handwriting is synthesied given some text. 
 
 ### Unconditional Generation
 The unconditional model uses skip-connection as shown by arrows from input to outer recurrent model. The MDN parameters are computed by passing the output of recurrent model to MDN layer.
-<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/uncon.JPG" width="850">
+<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/zzfigs/uncon.JPG" width="850">
 
 #### Train the models
 If you want to train the model from scratch, then use the following command. You can set the hyperparamters in the **main_uncond.py** script. The trained model would be saved in **saved_model** folder.
@@ -132,19 +132,19 @@ For inference I have provided trained models in the **saved_model** folder. If y
 >>> plot_stroke(strokes)
 >>> gauss_params_plot(mix_params)
 ```
-<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/unc1.JPG" width="850">
+<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/zzfigs/unc1.JPG" width="850">
 
 ```python
 >>> strokes, mix_params = sample_uncond(lr_model, h_size)
 >>> plot_stroke(strokes)
 >>> gauss_params_plot(mix_params)
 ```
-<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/unc2.JPG" width="850">
+<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/zzfigs/unc2.JPG" width="850">
 
 ### Conditional Generation
 In case of handwriting synthesis, a **location based attention** mechanism is used where a attention window (w<sub>t</sub>) is convolved with the character encodings. The attention parameters k<sub>t</sub> control the location of the window, the β<sub>t</sub> parameters control the width of the window and the α<sub>t</sub> parameters control the importance of the window within the mixture.
 
-<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/cond.JPG" width="850">
+<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/zzfigs/cond.JPG" width="850">
 
 #### Train the models
 If you want to train the model from scratch, then use the following command. You can set the hyperparamters in the **main_congen.py** script. The trained model would be saved in **saved_model** folder.
@@ -165,7 +165,7 @@ For inference I have provided trained models in the **saved_model** folder. If y
 >>> gauss_params_plot(mix_params)
 >>> phi_window_plots(phi, win) 
 ```
-<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/kiki.JPG" width="850">
+<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/zzfigs/kiki.JPG" width="850">
 
 ```python
 >>> strokes, mix_params, phi, win = sample_congen(lr_model, 'a thing of beauty is joy forever', char_to_vec, h_size)
@@ -173,4 +173,4 @@ For inference I have provided trained models in the **saved_model** folder. If y
 >>> gauss_params_plot(mix_params)
 >>> phi_window_plots(phi, win) 
 ```
-<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/beauty.JPG" width="850">
+<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/zzfigs/beauty.JPG" width="850">
