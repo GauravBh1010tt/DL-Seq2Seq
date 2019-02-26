@@ -7,6 +7,64 @@ This repository contains implementation of research papers on sequence-to-sequen
 - Mixture Density Networks (following [Mixture Density Networks](https://publications.aston.ac.uk/373/1/NCRG_94_004.pdf) paper)
 #### I will use pre-trained models (provided in the saved_models folder) for the following demonstrations. I have also included main.py script for training the models from scratch.
 
+
+## Sketch Generation
+Sketch-RNN model is desbribed in the apper [A Neural Representation of Sketch Drawings](https://openreview.net/pdf?id=Hy6GHpkCW). It is a variational autoencoder which generates pen-strokes of various shapes. The idea is to use a **Sequence-to-Sequence Variational Autoencoder (VAE)** which can learn the latent distribution of the drawings.
+
+<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/sk-rnn.JPG" width="850">
+
+The output of encoder is used to compute the latent parameters (**mu**, **sigma** and **z**) which is fed to the decoder. The output of the decoder is passed to a [mixture density network (MDN)](https://publications.aston.ac.uk/373/1/NCRG_94_004.pdf) which fits k-gaussians to learn the distribution of pen strokes.
+
+### Unconditional Generation
+For uncondtional generation only the decoder is trained while keeping the encoder parameters as non-trainable. The MDN parameters are computed by passing the output of the decoder to the MDN layer.
+
+#### Train the models
+If you want to train the model from scratch, then use the following command. You can set the hyperparamters in the **main.py** script.  Set the flag **cond_gen** as *False*. The models can be trained on either *cat* or *kanji* dataset which can be set using the **data_type** flag. Once trained the models would be saved in **saved_model** folder.
+```python
+$ python main.py
+```
+
+#### Let's make some inference
+For inference I have provided trained models in the **saved_model** folder. If you have trained your own model, then it would overwrite the pre-trained model and can be found inside **saved_model** folder.
+
+```python
+>>> from data_load import get_data
+>>> from model import encoder_skrnn, decoder_skrnn, skrnn_loss, skrnn_sample
+>>> from eval_skrnn import draw_image
+>>> data_type = 'cat' # can be kanji or cat
+
+>>> encoder, decoder, hid_dim, latent_dim, t_step, cond_gen, device, mode = load_pretrained_uncond(data_type)
+>>> strokes, mix_params = skrnn_sample(encoder, decoder, hid_dim, latent_dim, time_step=t_step, 
+                                               cond_gen=cond_gen, device=device, bi_mode= mode)
+>>> draw_image(strokes)
+```
+<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/unc_skrnn.JPG" width="850">
+
+### Conditional Generation
+In case of handwriting synthesis, a **location based attention** mechanism is used where a attention window (w<sub>t</sub>) is convolved with the character encodings. The attention parameters k<sub>t</sub> control the location of the window, the β<sub>t</sub> parameters control the width of the window and the α<sub>t</sub> parameters control the importance of the window within the mixture.
+
+#### Train the models
+The conditional model can be trained from scratch using the **main.py** script. Set the hyperparameter **cond_gen** as *True*.
+```python
+$ python main.py
+```
+
+#### Let's make some inference
+For inference I have provided trained models in the **saved_model** folder. If you have trained your own model, then it would overwrite the pre-trained model and can be found inside **saved_model** folder.
+
+```python
+>>> from data_load import get_data
+>>> from model import encoder_skrnn, decoder_skrnn, skrnn_loss, skrnn_sample
+>>> from eval_skrnn import draw_image
+>>> data_type = 'cat' # can be kanji or cat
+
+>>> encoder, decoder, hid_dim, latent_dim, t_step, cond_gen, device, mode = load_pretrained_uncond(data_type)
+>>> strokes, mix_params = skrnn_sample(encoder, decoder, hid_dim, latent_dim, time_step=t_step, 
+                                               cond_gen=cond_gen, device=device, bi_mode= mode)
+>>> draw_image(strokes)
+```
+<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/cnd_skrnn.JPG" width="850">
+
 ## Neural Machine Translation
 For this task, I have followed attentional encoder-decoder model as described in [Luong's paper](https://arxiv.org/pdf/1508.04025.pdf). I have specifically focused on **content-based attention** strategy.
 <img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/nmt_attn.JPG" width="750">
