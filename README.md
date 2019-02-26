@@ -38,7 +38,7 @@ For inference I have provided trained models in the **saved_model** folder. If y
                                                cond_gen=cond_gen, device=device, bi_mode= mode)
 >>> draw_image(strokes)
 ```
-<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/unc_skrnn.JPG" width="850">
+<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/unc_skrnn.JPG" width="900">
 
 ### Conditional Generation
 In case of handwriting synthesis, a **location based attention** mechanism is used where a attention window (w<sub>t</sub>) is convolved with the character encodings. The attention parameters k<sub>t</sub> control the location of the window, the β<sub>t</sub> parameters control the width of the window and the α<sub>t</sub> parameters control the importance of the window within the mixture.
@@ -63,7 +63,7 @@ For inference I have provided trained models in the **saved_model** folder. If y
                                                cond_gen=cond_gen, device=device, bi_mode= mode)
 >>> draw_image(strokes)
 ```
-<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/cnd_skrnn.JPG" width="850">
+<img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/cnd_skrnn.JPG" width="900">
 
 ## Neural Machine Translation
 For this task, I have followed attentional encoder-decoder model as described in [Luong's paper](https://arxiv.org/pdf/1508.04025.pdf). I have specifically focused on **content-based attention** strategy.
