@@ -43,7 +43,7 @@ For inference I have provided trained models in the **saved_model** folder. If y
 <img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/zzfigs/unc_skrnn.JPG" width="900">
 
 ### Conditional Generation
-Here, any sketch that is to be generated is conditioned on some input strokes. The given input is passed through the encoder whose output (hidden state) is used to compute the values of latent parameters (**mu**, **sigma** and **z**). The input of the decoder is the given input and the latent (*z*) vector concatenated together. Finally, the output of the decoder is fed to the MDN. Once trained the sketch-rnn model can be used to sample new data points.
+Here, any sketch that is to be generated is conditioned on some input strokes. The given input is passed through the encoder whose output (hidden state) is used to compute the values of latent parameters (**mu**, **sigma** and **z**). The input of the decoder is the given input and the latent (**z**) vector concatenated together. Finally, the output of the decoder is fed to the MDN. Once trained the sketch-rnn model can be used to sample new data points.
 
 #### Train the models
 The conditional model can be trained from scratch using the **main.py** script. Set the hyperparameter **cond_gen** as *True*.
