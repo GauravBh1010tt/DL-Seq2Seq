@@ -1,5 +1,5 @@
 # DL-Seq2Seq
-This repository contains implementation of research papers on sequence-to-sequence learning. Currently the following implementations are supported (a couple of them are implicitly used):
+This repository contains implementation of research papers on sequence-to-sequence learning. Currently the following implementations are supported:
 - Sketch Generation - [A Neural Representation of Sketch Drawings](https://openreview.net/pdf?id=Hy6GHpkCW)
 - Machine translation - [Effective Approaches to Attention-based Neural Machine Translation](https://arxiv.org/pdf/1508.04025.pdf)
 - Handwriting synthesis - [Generating Sequences With Recurrent Neural Networks](https://arxiv.org/pdf/1308.0850.pdf)
