@@ -33,7 +33,7 @@ For inference I have provided trained models in the **saved_model** folder. If y
 >>> from eval_skrnn import draw_image
 >>> data_type = 'cat' # can be kanji or cat
 
->>> encoder, decoder, hid_dim, latent_dim, t_step, cond_gen, device, mode = load_pretrained_uncond(data_type)
+>>> encoder, decoder, hid_dim, latent_dim, t_step, cond_gen, mode, device = load_pretrained_uncond(data_type)
 >>> strokes, mix_params = skrnn_sample(encoder, decoder, hid_dim, latent_dim, time_step=t_step, 
                                                cond_gen=cond_gen, device=device, bi_mode= mode)
 >>> draw_image(strokes)
@@ -41,7 +41,7 @@ For inference I have provided trained models in the **saved_model** folder. If y
 <img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/unc_skrnn.JPG" width="900">
 
 ### Conditional Generation
-In case of handwriting synthesis, a **location based attention** mechanism is used where a attention window (w<sub>t</sub>) is convolved with the character encodings. The attention parameters k<sub>t</sub> control the location of the window, the β<sub>t</sub> parameters control the width of the window and the α<sub>t</sub> parameters control the importance of the window within the mixture.
+Here, any sketch that is to be generated is conditioned on some input strokes. The given input is passed through the encoder whose output (hidden state) is used to compute the values of latent parameters (**mu**, **sigma** and **z**). The input of the decoder is the given input and the latent (*z*) vector concatenated together. Finally, the output of the decoder is fed to the MDN. Once trained the sketch-rnn model can be used to sample new data points.
 
 #### Train the models
 The conditional model can be trained from scratch using the **main.py** script. Set the hyperparameter **cond_gen** as *True*.
@@ -56,11 +56,16 @@ For inference I have provided trained models in the **saved_model** folder. If y
 >>> from data_load import get_data
 >>> from model import encoder_skrnn, decoder_skrnn, skrnn_loss, skrnn_sample
 >>> from eval_skrnn import draw_image
+>>> import torch
 >>> data_type = 'cat' # can be kanji or cat
 
->>> encoder, decoder, hid_dim, latent_dim, t_step, cond_gen, device, mode = load_pretrained_uncond(data_type)
->>> strokes, mix_params = skrnn_sample(encoder, decoder, hid_dim, latent_dim, time_step=t_step, 
-                                               cond_gen=cond_gen, device=device, bi_mode= mode)
+>>> data_enc, _ , _ = get_data(data_type=data_type) 
+>>> encoder, decoder, hid_dim, latent_dim, t_step, cond_gen, mode, device = load_pretrained_cond(data_type)
+>>> enc_rnd = torch.tensor(data_enc[np.random.randint(0,len(data_enc))].unsqueeze(0),\
+                                                                          dtype=torch.float, device =device)
+
+>>> strokes, mix_params = skrnn_sample(encoder, decoder, hid_dim, latent_dim, time_step=t_step, inp_enc=enc_rnd, 
+                                               cond_gen=cond_gen, device=device, bi_mode=mode)
 >>> draw_image(strokes)
 ```
 <img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/figs/cnd_skrnn.JPG" width="900">
