@@ -11,14 +11,14 @@ This repository contains implementation of research papers on sequence-to-sequen
 
 
 ## Sketch Generation
-Sketch-RNN model is desbribed in the apper [A Neural Representation of Sketch Drawings](https://openreview.net/pdf?id=Hy6GHpkCW). It is a variational autoencoder which generates pen-strokes of various shapes. The idea is to use a **Sequence-to-Sequence Variational Autoencoder (VAE)** which can learn the latent distribution of the drawings.
+Sketch-RNN model is described in the paper [A Neural Representation of Sketch Drawings](https://openreview.net/pdf?id=Hy6GHpkCW). It is a variational autoencoder which generates pen-strokes of various shapes. The idea is to use a **Sequence-to-Sequence Variational Autoencoder (VAE)** which can learn the latent distribution of the drawings.
 
 <img src="https://github.com/GauravBh1010tt/DL-Seq2Seq/blob/master/zzfigs/sk-rnn.JPG" width="850">
 
 The output of encoder is used to compute the latent parameters (**mu**, **sigma** and **z**) which is fed to the decoder. The output of the decoder is passed to a [mixture density network (MDN)](https://publications.aston.ac.uk/373/1/NCRG_94_004.pdf) which fits k-gaussians to learn the distribution of pen strokes.
 
 ### Unconditional Generation
-For uncondtional generation only the decoder is trained while keeping the encoder parameters as non-trainable. The MDN parameters are computed by passing the output of the decoder to the MDN layer.
+For uncondtional generation, the decoder is trained independently while keeping the encoder parameters as non-trainable. The MDN parameters are computed by passing the output of the decoder to the MDN layer.
 
 #### Train the models
 If you want to train the model from scratch, then use the following command. You can set the hyperparamters in the **main.py** script.  Set the flag **cond_gen** as *False*. The models can be trained on either *cat* or *kanji* dataset which can be set using the **data_type** flag. Once trained the models would be saved in **saved_model** folder.
