@@ -21,7 +21,7 @@ The output of encoder is used to compute the latent parameters (**mu**, **sigma*
 For uncondtional generation, the decoder is trained independently while keeping the encoder parameters as non-trainable. The MDN parameters are computed by passing the output of the decoder to the MDN layer.
 
 #### Train the models
-If you want to train the model from scratch, then use the following command. You can set the hyperparamters in the **main.py** script.  Set the flag **cond_gen** as *False*. The models can be trained on either *cat* or *kanji* dataset which can be set using the **data_type** flag. Once trained the models would be saved in **saved_model** folder.
+If you want to train the model from scratch, then use the following command. You can set the hyperparamters in the **main.py** script.  Set the flag **cond_gen** as *False*. The models can be trained on either *cat* or *kanji character* dataset which can be set using the **data_type** flag. Once trained the models would be saved in **saved_model** folder.
 ```python
 $ python main.py
 ```
@@ -33,7 +33,7 @@ For inference I have provided trained models in the **saved_model** folder. If y
 >>> from data_load import get_data
 >>> from model import encoder_skrnn, decoder_skrnn, skrnn_loss, skrnn_sample
 >>> from eval_skrnn import draw_image
->>> data_type = 'cat' # can be kanji or cat
+>>> data_type = 'cat' # can be kanji character or cat
 
 >>> encoder, decoder, hid_dim, latent_dim, t_step, cond_gen, mode, device = load_pretrained_uncond(data_type)
 >>> strokes, mix_params = skrnn_sample(encoder, decoder, hid_dim, latent_dim, time_step=t_step, 
@@ -59,7 +59,7 @@ For inference I have provided trained models in the **saved_model** folder. If y
 >>> from model import encoder_skrnn, decoder_skrnn, skrnn_loss, skrnn_sample
 >>> from eval_skrnn import draw_image
 >>> import torch
->>> data_type = 'cat' # can be kanji or cat
+>>> data_type = 'cat' # can be kanji character or cat
 
 >>> data_enc, _ , _ = get_data(data_type=data_type) 
 >>> encoder, decoder, hid_dim, latent_dim, t_step, cond_gen, mode, device = load_pretrained_cond(data_type)
