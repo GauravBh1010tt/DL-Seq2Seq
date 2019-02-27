@@ -64,10 +64,7 @@ decoder = decoder_skrnn(input_size = 5, hidden_size = hidden_dec_dim, num_gaussi
 encoder_optimizer = optim.Adam(encoder.parameters(), lr=learning_rate)
 decoder_optimizer = optim.Adam(decoder.parameters(), lr=learning_rate)
 
-try:
-    aaaaa = data_enc[0]
-except:
-    data_enc, data_dec, max_seq_len = get_data(data_type=data_type)
+data_enc, data_dec, max_seq_len = get_data(data_type=data_type)
 
 num_mini_batch = len(data_dec) - (len(data_dec) % batch_size)
 
