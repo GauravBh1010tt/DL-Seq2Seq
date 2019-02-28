@@ -12,6 +12,11 @@ import torch.optim as optim
 import warnings
 import numpy as np
 import matplotlib.pyplot as plt
+import zipfile
+
+zip_ref = zipfile.ZipFile('mnist_data.zip', 'r')
+zip_ref.extractall()
+zip_ref.close()
 
 warnings.simplefilter('ignore')
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
