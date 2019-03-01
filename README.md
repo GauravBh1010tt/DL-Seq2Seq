@@ -32,7 +32,7 @@ For inference I have provided trained models in the **saved_model** folder. If y
 ```python
 >>> from data_load import get_data
 >>> from model import encoder_skrnn, decoder_skrnn, skrnn_loss, skrnn_sample
->>> from eval_skrnn import draw_image
+>>> from eval_skrnn import draw_image, load_pretrained_uncond
 >>> data_type = 'cat' # can be kanji character or cat
 
 >>> encoder, decoder, hid_dim, latent_dim, t_step, cond_gen, mode, device = load_pretrained_uncond(data_type)
@@ -57,7 +57,7 @@ For inference I have provided trained models in the **saved_model** folder. If y
 ```python
 >>> from data_load import get_data
 >>> from model import encoder_skrnn, decoder_skrnn, skrnn_loss, skrnn_sample
->>> from eval_skrnn import draw_image
+>>> from eval_skrnn import draw_image, load_pretrained_cond
 >>> import torch
 >>> data_type = 'cat' # can be kanji character or cat
 
