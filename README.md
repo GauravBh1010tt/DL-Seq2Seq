@@ -36,7 +36,7 @@ For inference I have provided trained models in the **saved_model** folder. If y
 >>> data_type = 'cat' # can be kanji character or cat
 
 >>> encoder, decoder, hid_dim, latent_dim, t_step, cond_gen, mode, device = load_pretrained_uncond(data_type)
->>> strokes, mix_params = skrnn_sample(encoder, decoder, hid_dim, latent_dim, time_step=t_step, 
+>>> strokes, mix_params = skrnn_sample(encoder, decoder, hid_dim, latent_dim, time_step=t_step, random_state= 98,
                                                cond_gen=cond_gen, device=device, bi_mode= mode)
 >>> draw_image(strokes)
 ```
